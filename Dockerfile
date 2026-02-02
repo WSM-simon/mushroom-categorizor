@@ -1,11 +1,15 @@
-FROM python:3.11
+FROM alpine:latest
 
 WORKDIR /app
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    libopenblas0 \
-    && rm -rf /var/lib/apt/lists/*
+# Install Python 3 and required system dependencies
+RUN apk add --no-cache \
+    python3 \
+    py3-pip \
+    py3-numpy \
+    py3-pillow \
+    build-base \
+    python3-dev
 
 # Copy requirements
 COPY requirements.txt .
