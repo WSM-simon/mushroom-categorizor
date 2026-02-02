@@ -93,10 +93,13 @@ steps:
       GHCR_TOKEN:
         from_secret: GHCR_TOKEN
       TAG: "latest"
+      REPO_NAME: "${DRONE_REPO_NAME,,}"
       COMPOSE_SUBDIR: ""
     commands:
       - echo "$GHCR_TOKEN" | docker login ghcr.io -u "$GHCR_USERNAME" --password-stdin
       - export TAG
+      - export GHCR_USERNAME
+      - export REPO_NAME
       - cd "$REPO_DIR${COMPOSE_SUBDIR:+/}${COMPOSE_SUBDIR}"
       - docker compose pull
       - docker compose up -d

@@ -11,8 +11,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Copy requirements file
 COPY requirements.txt .
 
-# Install Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+# Install uv, create virtual environment, and install dependencies
+RUN curl -LsSf https://astral.sh/uv/install.sh | sh && \
+    /root/.local/bin/uv venv --python 3.11 && \
+    /root/.local/bin/uv pip install -r requirements.txt
 
 # Copy application code and model files
 COPY backend.py .
@@ -26,5 +28,5 @@ EXPOSE 8000
 HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
     CMD curl -f http://localhost:8000/health || exit 1
 
-# Run the application
-CMD ["uvicorn", "backend:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "1"]
+# Run the application using the virtual environment's Python
+CMD [".venv/bin/python", "-m", "uvicorn", "backend:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "1"]
