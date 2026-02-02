@@ -97,9 +97,9 @@ steps:
       COMPOSE_SUBDIR: ""
     commands:
       - echo "$GHCR_TOKEN" | docker login ghcr.io -u "$GHCR_USERNAME" --password-stdin
-      - export TAG
-      - export GHCR_USERNAME
-      - export REPO_NAME
+      - export TAG="latest"
+      - export GHCR_USERNAME=$(echo "$GHCR_USERNAME" | tr '[:upper:]' '[:lower:]')
+      - export REPO_NAME="${DRONE_REPO_NAME,,}"
       - cd "$REPO_DIR${COMPOSE_SUBDIR:+/}${COMPOSE_SUBDIR}"
       - docker compose pull
       - docker compose up -d
