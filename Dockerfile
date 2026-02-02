@@ -14,8 +14,8 @@ RUN apk add --no-cache \
 # Copy requirements
 COPY requirements.txt .
 
-# Install Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+# Install Python dependencies (break-system-packages is safe in Docker containers)
+RUN pip install --no-cache-dir --break-system-packages -r requirements.txt
 
 # Copy application code
 COPY main.py .
