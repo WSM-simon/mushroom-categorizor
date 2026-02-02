@@ -1,4 +1,5 @@
 import io
+import json
 import os
 from typing import List
 
@@ -10,21 +11,17 @@ from fastapi import FastAPI, File, Form, UploadFile
 from fastapi.responses import JSONResponse
 import keras
 
-DATA_DIR = "data"
 MODEL_PATH = "mushroom_model.keras"
+NAMES_PATH = "mushroom_names.json"
 IMAGE_SIZE = (128, 128)
 
 app = FastAPI(title="Mushroom Classifier", version="1.0")
 
 
-def load_class_names(data_dir: str) -> List[str]:
-    return sorted(
-        [
-            d
-            for d in os.listdir(data_dir)
-            if os.path.isdir(os.path.join(data_dir, d))
-        ]
-    )
+def load_class_names(names_file: str) -> List[str]:
+    with open(names_file, "r") as f:
+        data = json.load(f)
+    return data["mushroom_classes"]
 
 
 def preprocess_image(file_bytes: bytes) -> np.ndarray:
@@ -39,12 +36,12 @@ def preprocess_image(file_bytes: bytes) -> np.ndarray:
 def startup_event():
     global model, class_names
 
-    if not os.path.isdir(DATA_DIR):
-        raise RuntimeError(f"Data directory not found: {DATA_DIR}")
     if not os.path.isfile(MODEL_PATH):
         raise RuntimeError(f"Model file not found: {MODEL_PATH}")
+    if not os.path.isfile(NAMES_PATH):
+        raise RuntimeError(f"Names file not found: {NAMES_PATH}")
 
-    class_names = load_class_names(DATA_DIR)
+    class_names = load_class_names(NAMES_PATH)
     model = keras.models.load_model(MODEL_PATH)
 
 
@@ -65,8 +62,7 @@ async def predict(image: UploadFile = File(...), n: int = Form(3)):
     top_indices = np.argsort(probs)[-top_n:][::-1]
 
     results = [
-        {"name": class_names[i], "confidence": float(probs[i])}
-        for i in top_indices
+        {"name": class_names[i], "confidence": float(probs[i])} for i in top_indices
     ]
 
     return {"top_n": results}

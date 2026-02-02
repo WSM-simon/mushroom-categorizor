@@ -8,7 +8,6 @@ services:
       - "9999:8000"
     volumes:
       - ./mushroom_model.keras:/app/mushroom_model.keras:ro
-      - ./data:/app/data:ro
     environment:
       - CUDA_VISIBLE_DEVICES=-1
     restart: unless-stopped
