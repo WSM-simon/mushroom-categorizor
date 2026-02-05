@@ -17,12 +17,13 @@ import keras
 MODEL_PATH = "mushroom_model.keras"
 NAMES_PATH = "mushroom_names.json"
 IMAGE_SIZE = (128, 128)
-MAX_TOP_N = 10
+MAX_TOP_N = 20
 
 app = FastAPI(
     title="Mushroom Classifier",
     version="1.0",
     description="CPU inference backend for mushroom classification",
+    root_path="/mushrooms",
 )
 
 # Global variables for model and class names
