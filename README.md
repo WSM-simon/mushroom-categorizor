@@ -33,19 +33,46 @@ An AI-powered mushroom species identification application combining a FastAPI ba
 
 ### Installation
 
-1. **Install Python dependencies:**
-```bash
-pip install -r requirements.txt
-```
-
-2. **Install Node.js dependencies:**
+#### 1. Install Node.js dependencies:
 ```bash
 npm install
 # or
 pnpm install
 ```
 
+#### 2. Set up Python virtual environment and install dependencies:
+
+**Option A: Using the setup script (recommended for macOS/Linux):**
+```bash
+./setup-python.sh
+source venv/bin/activate
+```
+
+**Option B: Manual setup:**
+```bash
+# Create virtual environment
+python3 -m venv venv
+
+# Activate virtual environment
+# On macOS/Linux:
+source venv/bin/activate
+# On Windows:
+venv\Scripts\activate
+
+# Install dependencies
+pip install -r requirements.txt
+```
+
+> **Note for macOS users with Homebrew:** If you see an "externally-managed-environment" error, you must use a virtual environment (as shown above). This is required by PEP 668 to prevent breaking system packages.
+
 ### Running the Application
+
+**Important:** Make sure your Python virtual environment is activated before running the dev server:
+```bash
+source venv/bin/activate  # On macOS/Linux
+# or
+venv\Scripts\activate  # On Windows
+```
 
 **Development mode (runs both backend and frontend):**
 ```bash
@@ -58,18 +85,20 @@ This will start:
 - FastAPI backend on http://localhost:8000
 - Next.js frontend on http://localhost:3000
 
+**Run frontend only (without backend):**
+```bash
+npm run dev:next-only
+# or
+pnpm dev:next-only
+```
+
 **Run backend only:**
 ```bash
+# Make sure venv is activated first!
+source venv/bin/activate
 npm run fastapi-dev
 # or
 uvicorn backend:app --reload --port 8000
-```
-
-**Run frontend only:**
-```bash
-npm run next-dev
-# or
-next dev
 ```
 
 ### Production Build
