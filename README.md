@@ -132,6 +132,7 @@ FastAPI auto-generated Swagger documentation.
 - `MAX_TOP_N`: Maximum number of predictions
 
 ### Frontend (next.config.js)
+- `basePath`: Set to `/mushrooms` for deployment to subdirectory
 - API rewrites for development/production
 - Proxy configuration for FastAPI
 
@@ -143,6 +144,8 @@ The application uses concurrently to run both servers in development mode. The N
 - Production: API routes handled by serverless functions
 
 ## Deployment
+
+The application is configured with a base path of `/mushrooms` for deployment to subdirectories (e.g., `example.com/mushrooms`). This is handled automatically by Next.js when `basePath` is set in `next.config.js`.
 
 ### Vercel (Recommended)
 

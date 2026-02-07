@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  basePath: '/mushrooms',
   rewrites: async () => {
     const backendUrl = process.env.NEXT_PUBLIC_API_URL || 
       (process.env.NODE_ENV === "development" 
