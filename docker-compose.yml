@@ -9,7 +9,6 @@ services:
       - "9999:3000"
     environment:
       - NODE_ENV=production
-      - NEXT_PUBLIC_API_URL=http://localhost:9998
     depends_on:
       - mushroom-classifier-backend
     restart: unless-stopped
