@@ -9,6 +9,7 @@ os.environ.setdefault("CUDA_VISIBLE_DEVICES", "-1")
 import numpy as np
 from PIL import Image
 from fastapi import FastAPI, File, Form, UploadFile, HTTPException, Request
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, RedirectResponse
 import keras
 
@@ -23,6 +24,15 @@ app = FastAPI(
     version="1.0",
     description="CPU inference backend for mushroom classification",
     root_path="/mushrooms",
+)
+
+# Add CORS middleware for Next.js frontend
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 # Global variables for model and class names
