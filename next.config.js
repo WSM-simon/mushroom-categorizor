@@ -4,8 +4,8 @@ const nextConfig = {
   rewrites: async () => {
     const backendUrl = process.env.NEXT_PUBLIC_API_URL || 
       (process.env.NODE_ENV === "development" 
-        ? "http://127.0.0.1:8000" 
-        : "http://mushroom-classifier-backend:8000");
+        ? "http://127.0.0.1:9998" 
+        : "http://mushroom-classifier-backend:9998");
     
     return [
       {
