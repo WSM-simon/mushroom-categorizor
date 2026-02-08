@@ -46,7 +46,7 @@ export default function Home() {
       formData.append("image", file);
       formData.append("n", topN.toString());
 
-      const response = await fetch("/api/predict", {
+      const response = await fetch("/mushrooms/api/predict", {
         method: "POST",
         body: formData,
       });
